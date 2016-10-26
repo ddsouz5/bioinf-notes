@@ -93,11 +93,11 @@ assemble isoforms? <- check
         Novoalign 3.00.05: novoalign -a TGGAATTCTCGGGT GCCA AGG -l 15 -t 30 -r A
 
 
-- Get reference fasta from mirbase (then filter for organism) or should be in folder for organism downloaded from iGenome collection
-
 Build reference with bowtie
 
-    bowtie2-build mature_hsa.fa mature_hsa
+  - Get reference fasta from mirbase (then filter for organism) or should be in folder for organism downloaded from iGenome collection
+
+        bowtie2-build mature_hsa.fa mature_hsa
     
 Bowtie2 Local Alignment
 
