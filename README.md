@@ -5,7 +5,10 @@ This file is a reference only
 ## Contents
 - [Sources](#sources)
 - [RNA-Seq pipeline](#RNA-Seq-pipeline)
-- [Write the output of a command to a file](#Write the output of a command to a file)
+- [Redirect output of a command to a file](#Redirect output of a command to a file)
+
+## Sources
+* <http://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file>
 
 ## RNA-Seq pipeline
 [[back to top](#contents)]
@@ -47,4 +50,25 @@ assemble isoforms? <- check
 
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
 
-## Write the output of a command to a file
+## Redirect output of a command to a file
+
+The standard error stream will be redirected to the file only, it will not be visible in the terminal. If the file already exists, it gets overwritten.
+
+    command 2> output.txt
+    
+Both the standard output and standard error stream will be redirected to the file only, nothing will be visible in the terminal. If the file already exists, it gets overwritten.
+
+    command &> output.txt
+    
+The standard output stream will be copied to the file, it will still be visible in the terminal. If the file already exists, it gets overwritten.
+
+    command | tee output.txt
+    
+The standard output stream will be copied to the file only, it will still be visible in the terminal. If the file already exists, the new data will get appended to the end of the file.
+
+    command | tee -a output.txt
+    
+Example with bowtie2 (saving alignment stats in log file)
+    
+    bowtie2 --local -p 8 -x genomePrefix -U file.fw --un unmapped.fq 2>bowtie2.log
+    
