@@ -78,14 +78,18 @@ Example with bowtie2 (saving alignment stats in log file)
 ## samtools
 [[back to top](#contents)]
 
-To get the unmapped reads from a bam file (output in sam)
+Get unmapped reads from a bam file (output in sam)
 
     samtools view -f 4 file.bam > unmapped.sam
 
-To get the unmapped reads from a bam file (output in bam)
+Get unmapped reads from a bam file (output in bam)
 
     samtools view -b -f 4 file.bam > unmapped.bam
-    
+
+Get only mapped reads (use the parameter 'F', which works like -v of grep and skips the alignments for a specific flag)
+
+    samtools view -b -F 4 file.bam > mapped.bam     
+
 Get the unique reads (a single read mapping at one best position)
 
     samtools view -b -q 1 file.bam > unique.bam 
