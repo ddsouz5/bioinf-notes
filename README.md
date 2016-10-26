@@ -5,6 +5,7 @@ This file is a reference only
 ## Contents
 - [Sources](#sources)
 - [RNA-Seq pipeline](#RNA-Seq-pipeline)
+- [Write the output of a command to a file](#Write the output of a command to a file)
 
 ## RNA-Seq pipeline
 [[back to top](#contents)]
@@ -46,3 +47,4 @@ assemble isoforms? <- check
 
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
 
+## Write the output of a command to a file
