@@ -65,6 +65,12 @@ assemble isoforms? <- check
 
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
 
+## miRNA-seq Pipeline
+
+- Optimal parameters for for aligning <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
+
+      bwa aln -n 1 -o 0 -e 0 -k 1 -t 4
+
 ## Redirect output of a command to a file
 [[back to top](#contents)]
 
