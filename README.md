@@ -56,7 +56,7 @@ the acrocentric p-arms.*
 
 get Alignment summary metrics using picard
     
-    java -jar picard.jar CollectAlignmentSummaryMetrics I=...STARBowtie2.bam O=....STARBowtie2.alignmentSummary.txt R=hg19.fasta LEVEL=ALL_READS
+    java -jar picard.jar CollectAlignmentSummaryMetrics I=STARBowtie2.bam O=STARBowtie2.alignmentSummary.txt R=hg19.fasta LEVEL=ALL_READS
 
 get RNASeq metrics using picard
 
@@ -64,7 +64,11 @@ get RNASeq metrics using picard
 
 gene counts using HTSeq
 
-    samtools view -F4 ....STARBowtie2.bam | htseq-count -q -t exon -i gene_name - /annotations/hg19/gene.gtf  > ...STARBowtie2.gene.count
+    samtools view -F 4 STARBowtie2.bam | htseq-count -q -t exon -i gene_name -m intersection-nonempty - /annotations/hg19/gene.gtf  >  STARBowtie2.gene.count
+
+  - To combine multiple count files, use join
+                       
+        join count1.gff count2.gff| join - count3.gff | join - count4.gff |join - count5.gff|join - count6.gff > gene_counts_HTseq.gff
 
 assemble isoforms? <- check
 
