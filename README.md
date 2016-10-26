@@ -7,10 +7,12 @@ This file is a reference only
 - [RNA-Seq pipeline](#RNA-Seq-pipeline)
 - [Redirect output of a command to a file](#Redirect output of a command to a file)
 - [samtools](#samtools)
+- [parsing gencode GTF file](#parsing-gencode-GTF-file)
 
 ## Sources
 * <http://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file>
 * <https://www.biostars.org/p/56246/>
+* Pevsner, Jonathan. Bioinformatics And Functional Genomics. Hoboken: John Wiley and Sons, 2015. Print.
 
 ## RNA-Seq pipeline
 [[back to top](#contents)]
@@ -28,23 +30,34 @@ Run bowtie2 aligner on STAR unmapped reads
 
     bowtie2 --local --very-sensitive-local -p 8 -q --mm -x /results/plugins/scratch/RNASeqAnalysis/hg19/bowtie2/bowtie2 -U      Unmapped.out.mate1 --un sbt2_unmap.fq  | samtools view -bS - | samtools sort - unmapped_remapBowtie2
 
-Merging and indexing STAR and bowtie2 aligned reads
+Merge and index STAR and bowtie2 aligned reads
 
     java -jar picard.jar MergeSamFiles USE_THREADING=true MSD=true AS=true I=alignedSTAR.bam I=unmapped_remapBowtie2.bam O=....STARBowtie2.bam
 
-map unmapped reads to rRNA
+map unmapped reads to rRNA using bowtie2
 
     bowtie2 --local --very-sensitive-local -p 8 -q --mm -x <path to bowtie2 index for rRNA> -U sbt2_unmap.fq | samtools view -bS - | samtools sort - -o rRNA.bam
+    
+*To identify human rRNA
+RefSeq sequences from GenBank, follow the following steps. (1) From the home
+page of NCBI, navigate to NCBI Nucleotide and restrict the search to human using
+the search builder. (2) Currently (May 2015) there are nearly 11 million entries.
+Click “rRNA” under the “molecule types” filter. (3) There are now 30 RefSeq
+entries corresponding to 5.8S rRNA (e.g., NR_003285; 156 base pairs), 28S rRNA
+(NR_003287; 5070 base pairs), 18S rRNA (NR_003286; 1869 base pairs), and 45S
+rRNA (NR_046235; 13,357 base pairs). For each, the chromosomal assignment is to
+the acrocentric p-arms.*
 
-get Alignment summary metrics
+
+get Alignment summary metrics using picard
     
     java -jar picard.jar CollectAlignmentSummaryMetrics I=...STARBowtie2.bam O=....STARBowtie2.alignmentSummary.txt R=hg19.fasta LEVEL=ALL_READS
 
-get RNASeq metrics
+get RNASeq metrics using picard
 
     java -jar picard.jar CollectRnaSeqMetrics REF_FLAT=refFlat RIBOSOMAL_INTERVALS=rRNA.interval STRAND=FIRST_READ_TRANSCRIPTION_STRAND MINIMUM_LENGTH=100 LEVEL=ALL_READS I=....STARBowtie2.bam R=hg19.fasta O=...STARBowtie2.RNAmetrics.txt
 
-gene counts
+gene counts using HTSeq
 
     samtools view -F4 ....STARBowtie2.bam | htseq-count -q -t exon -i gene_name - /annotations/hg19/gene.gtf  > ...STARBowtie2.gene.count
 
@@ -97,3 +110,22 @@ Get the unique reads (a single read mapping at one best position)
 - Method is debatable (use MAPQ of 5 or 10...explained below)
 *From Devon Ryan in biostars post <https://www.biostars.org/p/101533/>
 'Bowtie2 will give an alignment a MAPQ score of 0 or 1 if it can map equally well to more than one location. Further, there's not always a perfect correspondence between the MAPQ of a read and the summary metrics it prints at the end (I'd need to go through the code again to determine how it arrives at the printed summary metrics, that's not documented anywhere). Finally, you would be well served to completely abandon the concept of "uniquely mapped". It is never useful and is always misleading, since you're simply lying to by labeling something unique. You're better served by simply filtering on a meaningful MAPQ (5 or 10 are often reasonable choices), which has the benefit of actually doing what you want, namely filtering according the the likelihood that an alignment is correct.'*
+
+## parsing gencode GTF file
+[[back to top](#contents)]
+
+- <https://www.gencodegenes.org>
+
+Get all "gene" lines
+
+    awk '{if($3=="gene"){print $0}}' gencode.gtf
+    
+Get all "protein-coding transcript" lines: 
+
+    awk '{if($3=="transcript" && $20=="\"protein_coding\";"){print $0}}' gencode.gtf
+    
+Get level 1 & 2 annotation (manually annotated) only:
+    
+    awk '{if($0~"level (1|2);"){print $0}}' gencode.gtf
+    
+Parse using perl <https://www.gencodegenes.org/data_format.html>
