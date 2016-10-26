@@ -2,7 +2,12 @@
 Creating a file with useful commands in Bioinformatics, some commands are my own and some are taken from various sources
 This file is a reference only
 
-## RNA-Seq pipeline
+## Contents
+- [Sources](#sources)
+- [RNA-Seq pipeline](#RNASeq-pipeline)
+
+## RNASeq pipeline
+[[back to top](#contents)]
  
 Run STAR on long reads
 
@@ -40,3 +45,4 @@ gene counts
 assemble isoforms? <- check
 
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
+
