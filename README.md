@@ -86,7 +86,7 @@ The standard output stream will be copied to the file only, it will still be vis
     
 Example with bowtie2 (saving alignment stats in log file)
     
-    bowtie2 --local -p 8 -x genomePrefix -U file.fw --un unmapped.fq 2>bowtie2.log
+    bowtie2 --local -p 8 -x genomePrefix -U reads.fq --un unmapped.fq -S aligned.sam 2>bowtie2.log 
 
 ## samtools
 [[back to top](#contents)]
