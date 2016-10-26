@@ -14,6 +14,7 @@ This file is a reference only
 * <https://www.biostars.org/p/56246/>
 * Pevsner, Jonathan. Bioinformatics And Functional Genomics. Hoboken: John Wiley and Sons, 2015. Print.
 * <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
+* <https://wikis.utexas.edu/display/bioiteam/Alternative+Applications+of+RNA-seq>
 
 ## RNA-Seq pipeline
 [[back to top](#contents)]
@@ -75,6 +76,7 @@ assemble isoforms? <- check
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
 
 ## miRNA-seq Pipeline
+[[back to top](#contents)]
 
 - Optimal parameters for different aligners <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 
@@ -89,6 +91,32 @@ assemble isoforms? <- check
         Bowtie2 2.1.0: bowtie2 --local -p 8 -q --phred33 -D 20 -R 3 -N 0 -L 8 -i S,1,0.50
         
         Novoalign 3.00.05: novoalign -a TGGAATTCTCGGGT GCCA AGG -l 15 -t 30 -r A
+
+
+- Get reference fasta from mirbase (then filter for organism) or should be in folder for organism downloaded from iGenome collection
+
+Build reference with bowtie
+
+    bowtie2-build mature_hsa.fa mature_hsa
+    
+Bowtie2 Local Alignment
+
+  - We would like to use an alignment strategy that can intelligently ignore the parts that won't align to a reference (the 'adapter') and align correctly the parts that align well.  This is called a 'local' alignment, in contrast to a 'global' alignment, which would count the 'mismatches' in the adapter against the alignment score. Bowtie2 is a local-alignment-capable aligner 
+  
+            bowtie2 --local -N 1 -L 16 -x mirbase/mature_hsa -U human_mirnaseq.fastq.gz -S human_mirnaseq.sam
+            
+miRNA Profiling with SAMTools
+
+  - Because each contig in our reference is a feature, we do not need a true annotation to quantify our miRNAs.  Instead, we just need to count how many reads aligned to each contig, and sort them accordingly. Samtools has a simple utility called idxstats that reports exactly this.  The following commands will produce this information by converting the SAM file to BAM, sorting and indexing it, then running idxstats: 
+  
+            samtools view -bS human_mirnaseq.sam > human_mirnaseq.bam
+            samtools sort human_mirnaseq.bam human_mirnaseq.sorted
+            samtools index human_mirnaseq.sorted.bam
+            samtools idxstats human_mirnaseq.sorted.bam > idxstats.txt
+
+  - look at the top ten most abundant miRNAs
+  
+            sort -r -n -k 3 idxstats.txt | head
 
 
 ## Redirect output of a command to a file
