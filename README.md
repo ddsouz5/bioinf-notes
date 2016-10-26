@@ -4,9 +4,9 @@ This file is a reference only
 
 ## Contents
 - [Sources](#sources)
-- [RNA-Seq pipeline](#RNASeq-pipeline)
+- [RNA-Seq pipeline](#RNA-Seq-pipeline)
 
-## RNASeq pipeline
+## RNA-Seq pipeline
 [[back to top](#contents)]
  
 Run STAR on long reads
