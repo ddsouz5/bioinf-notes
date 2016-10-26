@@ -6,9 +6,11 @@ This file is a reference only
 - [Sources](#sources)
 - [RNA-Seq pipeline](#RNA-Seq-pipeline)
 - [Redirect output of a command to a file](#Redirect output of a command to a file)
+- [samtools](#samtools)
 
 ## Sources
 * <http://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file>
+* <https://www.biostars.org/p/56246/>
 
 ## RNA-Seq pipeline
 [[back to top](#contents)]
@@ -51,6 +53,7 @@ assemble isoforms? <- check
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
 
 ## Redirect output of a command to a file
+[[back to top](#contents)]
 
 The standard error stream will be redirected to the file only, it will not be visible in the terminal. If the file already exists, it gets overwritten.
 
@@ -71,4 +74,22 @@ The standard output stream will be copied to the file only, it will still be vis
 Example with bowtie2 (saving alignment stats in log file)
     
     bowtie2 --local -p 8 -x genomePrefix -U file.fw --un unmapped.fq 2>bowtie2.log
+
+## samtools
+[[back to top](#contents)]
+
+To get the unmapped reads from a bam file (output in sam)
+
+    samtools view -f 4 file.bam > unmapped.sam
+
+To get the unmapped reads from a bam file (output in bam)
+
+    samtools view -b -f 4 file.bam > unmapped.bam
     
+Get the unique reads (a single read mapping at one best position)
+
+    samtools view -b -q 1 file.bam > unique.bam 
+
+- Method is debatable (use MAPQ of 5 or 10...explained below)
+*From Devon Ryan in biostars post <https://www.biostars.org/p/101533/>
+'Bowtie2 will give an alignment a MAPQ score of 0 or 1 if it can map equally well to more than one location. Further, there's not always a perfect correspondence between the MAPQ of a read and the summary metrics it prints at the end (I'd need to go through the code again to determine how it arrives at the printed summary metrics, that's not documented anywhere). Finally, you would be well served to completely abandon the concept of "uniquely mapped". It is never useful and is always misleading, since you're simply lying to by labeling something unique. You're better served by simply filtering on a meaningful MAPQ (5 or 10 are often reasonable choices), which has the benefit of actually doing what you want, namely filtering according the the likelihood that an alignment is correct.'*
