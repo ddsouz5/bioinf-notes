@@ -13,9 +13,14 @@ This file is a reference only
 * <http://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file>
 * <https://www.biostars.org/p/56246/>
 * Pevsner, Jonathan. Bioinformatics And Functional Genomics. Hoboken: John Wiley and Sons, 2015. Print.
+* <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 
 ## RNA-Seq pipeline
 [[back to top](#contents)]
+
+remove adaptor sequences
+
+    cutadapt -m 16 -b GGCCAAGGCG -o adaptorTrim.fastq input.fastq
  
 Run STAR on long reads
 
@@ -67,9 +72,20 @@ assemble isoforms? <- check
 
 ## miRNA-seq Pipeline
 
-- Optimal parameters for for aligning <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
+- Optimal parameters for different aligners <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 
-      bwa aln -n 1 -o 0 -e 0 -k 1 -t 4
+        BWA 0.7.4: bwa aln -n 1 -o 0 -e 0 -k 1 -t 4
+
+        BWA 0.7.4 (0 mismatch in seed): bwa aln -n 1 -o 0 -e 0 -l 8 -k 0 -t 4
+        
+        Bowtie 0.12.9: bowtie -n 1 -l 8 -a --best --strata --phred33- quals
+        
+        Bowtie 0.12.9 (0 mismatch in seed): bowtie -n 0 -l 8 -a --best --strata --phred33-quals
+        
+        Bowtie2 2.1.0: bowtie2 --local -p 8 -q --phred33 -D 20 -R 3 -N 0 -L 8 -i S,1,0.50
+        
+        Novoalign 3.00.05: novoalign -a TGGAATTCTCGGGT GCCA AGG -l 15 -t 30 -r A
+
 
 ## Redirect output of a command to a file
 [[back to top](#contents)]
@@ -114,7 +130,7 @@ Get the unique reads (a single read mapping at one best position)
     samtools view -b -q 1 file.bam > unique.bam 
 
 - Method is debatable (use MAPQ of 5 or 10...explained below)
-*From Devon Ryan in biostars post <https://www.biostars.org/p/101533/>
+    - *From Devon Ryan in biostars post <https://www.biostars.org/p/101533/>
 'Bowtie2 will give an alignment a MAPQ score of 0 or 1 if it can map equally well to more than one location. Further, there's not always a perfect correspondence between the MAPQ of a read and the summary metrics it prints at the end (I'd need to go through the code again to determine how it arrives at the printed summary metrics, that's not documented anywhere). Finally, you would be well served to completely abandon the concept of "uniquely mapped". It is never useful and is always misleading, since you're simply lying to by labeling something unique. You're better served by simply filtering on a meaningful MAPQ (5 or 10 are often reasonable choices), which has the benefit of actually doing what you want, namely filtering according the the likelihood that an alignment is correct.'*
 
 ## parsing gencode GTF file
