@@ -5,6 +5,7 @@ This file is a reference only
 ## Contents
 - [Sources](#sources)
 - [RNA-Seq pipeline](#RNA-Seq-pipeline)
+- [miRNA-seq Pipeline](#miRNA-seq-Pipeline)
 - [Redirect output of a command to a file](#Redirect output of a command to a file)
 - [samtools](#samtools)
 - [parsing gencode GTF file](#parsing-gencode-GTF-file)
