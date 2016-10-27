@@ -4,11 +4,11 @@ This file is a reference only
 
 ## Contents
 - [Sources](#sources)
-- [RNASeq pipeline](#RNASeq-pipeline)
-- [miRNAseq Pipeline](#miRNAseq-pipeline)
-- [Redirect output of a command to a file](#Redirect-output-of-a-command-to-a-file)
+- [RNASeq pipeline](#rnaseq-pipeline)
+- [miRNAseq Pipeline](#mirnaseq-pipeline)
+- [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [samtools](#samtools)
-- [parsing gencode GTF file](#parsing-gencode-GTF-file)
+- [parsing gencode GTF file](#parsing-gencode-gtf-file)
 
 ## Sources
 * <http://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file>
