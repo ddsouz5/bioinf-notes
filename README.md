@@ -9,6 +9,7 @@ This file is a reference only
 - [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [samtools](#samtools)
 - [parsing gencode GTF file](#parsing-gencode-gtf-file)
+- [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 
 ## Sources
 * <http://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file>
@@ -17,8 +18,10 @@ This file is a reference only
 * <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 * <https://wikis.utexas.edu/display/bioiteam/Alternative+Applications+of+RNA-seq>
 
-## RNASeq pipeline (for Ion Torrent reads)
+## RNASeq pipeline
 [[back to top](#contents)]
+
+*Optimized for Ion Torrent Reads
 
 remove adaptor sequences
 
@@ -188,3 +191,40 @@ Parse using perl <https://www.gencodegenes.org/data_format.html>
 Get all miRNA gene names:
 
     awk '{if($20 == "\"miRNA\";"){print $0}}' gencode.v19.annotation.gtf | cut -d ";" -f 5 - | awk -F " " '{print $2}' - | sort | uniq > miRNA.genes
+
+## Extract file name in unix loops
+[[back to top](#contents)]
+
+FILE="example.tar.gz"
+
+Extract 'example'
+
+    echo "${FILE%%.*}"
+    
+Extract 'example.tar'
+
+    echo "${FILE%.*}"
+    
+Extract 'tar.gz'
+
+    echo "${FILE#*.}"
+        
+Extract 'gz'        
+        
+    echo "${FILE##*.}"
+    
+Trim the shortest match from the end
+    
+    ${variable%pattern}
+
+Trim the longest match from the beginning
+
+    ${variable##pattern}
+
+Trim the longest match from the end
+
+    ${variable%%pattern}
+
+Trim the shortest match from the beginning
+    
+    ${variable#pattern}
