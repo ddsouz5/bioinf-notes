@@ -22,7 +22,7 @@ This file is a reference only
 ## RNASeq pipeline
 [[back to top](#contents)]
 
-*Optimized for Ion Torrent Reads
+*Optimized for Ion Torrent Reads*
 
 remove adaptor sequences
 
