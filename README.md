@@ -17,7 +17,7 @@ This file is a reference only
 * <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 * <https://wikis.utexas.edu/display/bioiteam/Alternative+Applications+of+RNA-seq>
 
-## RNASeq pipeline
+## RNASeq pipeline (for Ion Torrent reads)
 [[back to top](#contents)]
 
 remove adaptor sequences
@@ -72,7 +72,7 @@ gene counts using HTSeq
                        
         join count1.gff count2.gff| join - count3.gff | join - count4.gff |join - count5.gff|join - count6.gff > gene_counts_HTseq.gff
 
-assemble isoforms? <- check
+Run cufflink, cuffmerge and cuffdiff on aligned reads
 
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
 
@@ -184,3 +184,7 @@ Get level 1 & 2 annotation (manually annotated) only:
     awk '{if($0~"level (1|2);"){print $0}}' gencode.gtf
     
 Parse using perl <https://www.gencodegenes.org/data_format.html>
+
+Get all miRNA gene names:
+
+    awk '{if($20 == "\"miRNA\";"){print $0}}' gencode.v19.annotation.gtf | cut -d ";" -f 5 - | awk -F " " '{print $2}' - | sort | uniq > miRNA.genes
