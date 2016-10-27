@@ -17,6 +17,7 @@ This file is a reference only
 * Pevsner, Jonathan. Bioinformatics And Functional Genomics. Hoboken: John Wiley and Sons, 2015. Print.
 * <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 * <https://wikis.utexas.edu/display/bioiteam/Alternative+Applications+of+RNA-seq>
+* <http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash>
 
 ## RNASeq pipeline
 [[back to top](#contents)]
