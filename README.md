@@ -83,6 +83,37 @@ Run cufflink, cuffmerge and cuffdiff on aligned reads
 ## miRNAseq pipeline
 [[back to top](#contents)]
 
+- Basic Parameters to consider
+
+    - Alignment parameters 
+
+     - Minimum percent identity (%) : 96
+     - Mismatches allowed (0-2) : 1
+
+    - Output Parameters 
+
+     - Minimum match length (bp) : 10
+     - Max number of matches to be reported per read : 5
+
+     - Ignore reads with more than _ valid matches : 5
+
+      - Trimming parameters
+
+        - Fixed Trimming
+        
+          - Number of bases to trim from 3' end : 0
+          - Number of bases to trim from 5' end : 0
+
+        - Quality Trimming 
+
+          - Trim 3'end with average quality less than : 10
+          
+       - Perform Adapter Trimming : No
+       - Trim poorly aligned portion at 3'end : No
+
+    - Screen against Ribosomal RNA contaminants
+
+
 - Optimal parameters for different aligners <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 
         BWA 0.7.4: bwa aln -n 1 -o 0 -e 0 -k 1 -t 4
