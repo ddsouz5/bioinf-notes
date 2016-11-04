@@ -32,6 +32,14 @@ Create link to index files and gtf gile (example code)
     ln –s ~/data/hg19/Ensembl/BDGP5.25/Annotation/Genes/genes.gtf .
 
 
+  - Or export path in .bashrc or .zshrc
+  
+        export STARINDEX="/References_data/References_genome/Homo_sapiens/UCSC/hg19/Sequence/STAR"
+        
+        export GENCODE="/References_data/References_genome/Homo_sapiens/gencode.v19.annotation.gtf"
+        
+  - Directory or file can then be called with **$STAR** and **$GENCODE** in command line
+
 remove adaptor sequences
 
     cutadapt -m 16 -b GGCCAAGGCG -o adaptorTrim.fastq input.fastq
