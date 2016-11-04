@@ -24,6 +24,14 @@ This file is a reference only
 
 *Optimized for Ion Torrent Reads*
 
+Create link to index files and gtf gile (example code)
+
+    ln –s ~/data/hg19/Ensembl/BDGP5.25/Sequence/Bowtie2Index/genome* . # the * specifies all files in that directory beginning with genome. The final . symbol indicates that the link should be placed here in the current directory
+
+    
+    ln –s ~/data/hg19/Ensembl/BDGP5.25/Annotation/Genes/genes.gtf .
+
+
 remove adaptor sequences
 
     cutadapt -m 16 -b GGCCAAGGCG -o adaptorTrim.fastq input.fastq
