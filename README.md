@@ -236,6 +236,10 @@ Get level 1 & 2 annotation (manually annotated) only:
     
 Parse using perl <https://www.gencodegenes.org/data_format.html>
 
+Get gene annotation:
+
+    awk '{if($3=="gene"){print $0}}' gencode.gtf | cut -f 9 | cut -d ' ' -f 2,6,10 >  gencode_annotation.txt 
+    
 Get all miRNA gene names:
 
     awk '{if($20 == "\"miRNA\";"){print $0}}' gencode.v19.annotation.gtf | cut -d ";" -f 5 - | awk -F " " '{print $2}' - | sort | uniq > miRNA.genes
