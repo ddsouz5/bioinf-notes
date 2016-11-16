@@ -5,10 +5,11 @@ This file is a reference only
 ## Contents
 - [Sources](#sources)
 - [RNASeq pipeline](#rnaseq-pipeline)
+- [TopHat and CuffLinks Sample Protocol](#tophat-and-cufflinks-sample-protocol)
 - [miRNAseq Pipeline](#mirnaseq-pipeline)
 - [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [samtools](#samtools)
-- [parsing gencode GTF file](#parsing-gencode-gtf-file)
+- [parsing gencode GTF file and examining GTF files](#parsing-gencode-gtf-file-and-examining-gtf-files)
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 
 ## Sources
@@ -95,6 +96,55 @@ gene counts using HTSeq
 Run cufflink, cuffmerge and cuffdiff on aligned reads
 
     cufflinks -q -p 12 -m 100 -s 60 -G /annotations/hg19/gene.gtf -M /annotations/hg19/rRNA_mask.gtf   --library-type fr-secondstrand --max-bundle-length 3500000   -o output_cufflinks --no-update-check ....STARBowtie2.bam
+
+
+## TopHat and CuffLinks Sample Protocol
+[[back to top](#contents)]
+
+1. Obtain genome and gtf files from iGenome or Ensemble
+
+        cp ~/Downloads/Drosophila_melanogaster_Ensembl_BDGP5.25.tar ~/data/
+        tar xopf Drosophila_melanogaster_Ensembl_BDGP5.25.tar
+        ln –s ~/data/Drosophila_melanogaster/Ensembl/BDGP5.25/Sequence/Bowtie2Index/genome* 
+        ln –s ~/data/Drosophila_melanogaster/Ensembl/BDGP5.25/Annotation/Genes/genes.gtf .
+        head -2 genes.gtf
+        grep –c '@' GSM794483_C1_R1_1.fq
+        
+2. TopHat to Map Reads to a Reference Genome
+
+        tophat -p 8 -G genes.gtf -o C1_R1_thout genome C1_R1_1.fq C1_R1_2.fq
+        samtools flagstat accepted_hits.bam
+
+3. Cufflinks to Assemble Transcripts
+
+        cufflinks -p 8 -o C1_R1_clout C1_R1_thout/accepted_hits.bam
+        
+        
+    The Cufflinks outputs are sent to a folder with text files listing the loci and lengths of
+    genes, transcripts, and isoforms. Next, create a file called assemblies.txt. This lists the assembly file for each sample.
+    
+        find . -name transcripts.gtf > assembly_list.txt
+        
+4. Run Cuffmerge on all the assemblies. 
+
+    This generates a single merged transcriptome annotation. The –s option specifies the genomic DNA sequences for the reference, while –g genes.gtf is an optional reference GTF file.
+    
+        cuffmerge –g genes.gtf –s genome.fa –p 8 assembly_list.txt
+
+5. Cuffdiff to Determine Differential Expression
+
+        cuffdiff -o diff_out -b genome.fa -p 8 -L C1,C2 -u merged_asm/merged.gtf ./C1_R1_thout/accepted_hits.bam,./C1_R2_thout/accepted_hits.bam,./C1_R3_thout/accepted_hits.bam ./C2_R1_thout/accepted_hits.bam,./C2_R3_thout/accepted_hits.bam,./C2_R2_thout/accepted_hits.bam
+        
+6. CummeRbund to Visualize RNA-seq Results in R
+        
+        Rstudio
+        source("http://bioconductor.org/biocLite.R")
+        biocLite("cummeRbund")
+        library(cummeRbund)
+        
+        cuff_data <- readCufflinks('diff_out')
+
+
 
 ## miRNAseq pipeline
 [[back to top](#contents)]
@@ -217,7 +267,27 @@ Get the unique reads (a single read mapping at one best position)
     - *From Devon Ryan in biostars post <https://www.biostars.org/p/101533/>
 'Bowtie2 will give an alignment a MAPQ score of 0 or 1 if it can map equally well to more than one location. Further, there's not always a perfect correspondence between the MAPQ of a read and the summary metrics it prints at the end (I'd need to go through the code again to determine how it arrives at the printed summary metrics, that's not documented anywhere). Finally, you would be well served to completely abandon the concept of "uniquely mapped". It is never useful and is always misleading, since you're simply lying to by labeling something unique. You're better served by simply filtering on a meaningful MAPQ (5 or 10 are often reasonable choices), which has the benefit of actually doing what you want, namely filtering according the the likelihood that an alignment is correct.'*
 
-## parsing gencode GTF file
+
+Examine a few lines of BAM alignment file.
+
+    samtools view -x accepted_hits.bam | less
+
+Spliced sequences
+
+   The 6th BAM file field is the CIGAR string which tells you how your query sequence mapped to the reference.
+   
+   The CIGAR string "58M76N17M" represents a spliced sequence. The codes mean:
+   
+   56M - the first 58 bases match the reference
+   76N - there are then 76 bases on the reference with no corresponding bases in the sequence (an intron)
+   17M - the last 17 bases match the reference
+   
+   Count spliced sequences
+   
+        samtools view accepted_hits.bam | cut -f 6 | grep 'N' | wc -l
+
+
+## parsing gencode GTF file and examining GTF files
 [[back to top](#contents)]
 
 - <https://www.gencodegenes.org>
@@ -243,6 +313,13 @@ Get gene annotation:
 Get all miRNA gene names:
 
     awk '{if($20 == "\"miRNA\";"){print $0}}' gencode.v19.annotation.gtf | cut -d ";" -f 5 - | awk -F " " '{print $2}' - | sort | uniq > miRNA.genes
+    
+Other
+    
+    less $BI/ngs_course/tophat_cufflinks/reference/genes.gtf  # :q to exit
+    cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | head
+    cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | cut -f 1-8 | more
+    cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | cut -f 9 | more
 
 ## Extract file name in unix loops
 [[back to top](#contents)]
