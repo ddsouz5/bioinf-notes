@@ -324,7 +324,7 @@ Example with bowtie2 (saving alignment stats in log file)
 ## Extract file name in unix loops
 [[back to top](#contents)]
 
-FILE="example.tar.gz"
+*FILE="example.tar.gz"*
 
 Extract 'example'
 
