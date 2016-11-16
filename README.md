@@ -283,7 +283,7 @@ Examine a few lines of BAM alignment file.
    
   - Count spliced sequences
    
-        samtools view accepted_hits.bam | cut -f 6 | grep 'N' | wc -l
+            samtools view accepted_hits.bam | cut -f 6 | grep 'N' | wc -l
 
 
 ## parsing gencode GTF file and examining GTF files
