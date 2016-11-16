@@ -7,9 +7,9 @@ This file is a reference only
 - [RNASeq pipeline](#rnaseq-pipeline)
 - [TopHat and CuffLinks Sample Protocol](#tophat-and-cufflinks-sample-protocol)
 - [miRNAseq Pipeline](#mirnaseq-pipeline)
-- [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [samtools](#samtools)
 - [parsing gencode GTF file and examining GTF files](#parsing-gencode-gtf-file-and-examining-gtf-files)
+- [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 
 ## Sources
@@ -220,30 +220,6 @@ miRNA Profiling with SAMTools
   
             sort -r -n -k 3 idxstats.txt | head
 
-
-## Redirect output of a command to a file
-[[back to top](#contents)]
-
-The standard error stream will be redirected to the file only, it will not be visible in the terminal. If the file already exists, it gets overwritten.
-
-    command 2> output.txt
-    
-Both the standard output and standard error stream will be redirected to the file only, nothing will be visible in the terminal. If the file already exists, it gets overwritten.
-
-    command &> output.txt
-    
-The standard output stream will be copied to the file, it will still be visible in the terminal. If the file already exists, it gets overwritten.
-
-    command | tee output.txt
-    
-The standard output stream will be copied to the file only, it will still be visible in the terminal. If the file already exists, the new data will get appended to the end of the file.
-
-    command | tee -a output.txt
-    
-Example with bowtie2 (saving alignment stats in log file)
-    
-    bowtie2 --local -p 8 -x genomePrefix -U reads.fq --un unmapped.fq -S aligned.sam 2>bowtie2.log 
-
 ## samtools
 [[back to top](#contents)]
 
@@ -319,6 +295,31 @@ Other
     cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | head
     cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | cut -f 1-8 | more
     cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | cut -f 9 | more
+
+
+## Redirect output of a command to a file
+[[back to top](#contents)]
+
+The standard error stream will be redirected to the file only, it will not be visible in the terminal. If the file already exists, it gets overwritten.
+
+    command 2> output.txt
+    
+Both the standard output and standard error stream will be redirected to the file only, nothing will be visible in the terminal. If the file already exists, it gets overwritten.
+
+    command &> output.txt
+    
+The standard output stream will be copied to the file, it will still be visible in the terminal. If the file already exists, it gets overwritten.
+
+    command | tee output.txt
+    
+The standard output stream will be copied to the file only, it will still be visible in the terminal. If the file already exists, the new data will get appended to the end of the file.
+
+    command | tee -a output.txt
+    
+Example with bowtie2 (saving alignment stats in log file)
+    
+    bowtie2 --local -p 8 -x genomePrefix -U reads.fq --un unmapped.fq -S aligned.sam 2>bowtie2.log 
+
 
 ## Extract file name in unix loops
 [[back to top](#contents)]
