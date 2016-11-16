@@ -129,7 +129,7 @@ Run cufflink, cuffmerge and cuffdiff on aligned reads
 
     This generates a single merged transcriptome annotation. The –s option specifies the genomic DNA sequences for the reference, while –g genes.gtf is an optional reference GTF file.
     
-        cuffmerge –g genes.gtf –s genome.fa –p 8 assembly_list.txt
+        cuffmerge -g genes.gtf -s genome.fa -p 8 assembly_list.txt
 
 5. Cuffdiff to Determine Differential Expression
 
