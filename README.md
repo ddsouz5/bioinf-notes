@@ -272,17 +272,16 @@ Examine a few lines of BAM alignment file.
 
     samtools view -x accepted_hits.bam | less
 
-Spliced sequences
+- Spliced sequences
 
-   The 6th BAM file field is the CIGAR string which tells you how your query sequence mapped to the reference.
+  - The 6th BAM file field is the CIGAR string which tells you how your query sequence mapped to the reference.
    
-   The CIGAR string "58M76N17M" represents a spliced sequence. The codes mean:
+  - The CIGAR string "58M76N17M" represents a spliced sequence. The codes mean:
+    - 56M-the first 58 bases match the reference
+    - 76N-there are then 76 bases on the reference with no corresponding bases in the sequence (an intron)
+    - 17M-the last 17 bases match the reference
    
-   56M - the first 58 bases match the reference
-   76N - there are then 76 bases on the reference with no corresponding bases in the sequence (an intron)
-   17M - the last 17 bases match the reference
-   
-   Count spliced sequences
+  - Count spliced sequences
    
         samtools view accepted_hits.bam | cut -f 6 | grep 'N' | wc -l
 
