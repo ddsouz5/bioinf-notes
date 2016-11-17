@@ -11,6 +11,8 @@ This file is a reference only
 - [parsing gencode GTF file and examining GTF files](#parsing-gencode-gtf-file-and-examining-gtf-files)
 - [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
+- [Automate backup in Linux with cron and rsync](#automate-backup-in-linux-with-cron-and-rsync)
+
 
 ## Sources
 * <http://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file>
@@ -19,6 +21,7 @@ This file is a reference only
 * <http://bib.oxfordjournals.org/content/early/2015/04/17/bib.bbv019.full>
 * <https://wikis.utexas.edu/display/bioiteam/Alternative+Applications+of+RNA-seq>
 * <http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash>
+* <https://www.marksanborn.net/howto/use-rsync-for-daily-weekly-and-full-monthly-backups/>
 
 ## RNASeq pipeline
 [[back to top](#contents)]
@@ -357,3 +360,24 @@ Trim the longest match from the end
 Trim the shortest match from the beginning
     
     ${variable#pattern}
+
+## Automate backup in Linux with cron and rsync
+[[back to top](#contents)]
+
+Open chrontab text file with this command
+
+        crontab -e
+        
+Add lines of code at the bottom (examples below)
+
+    30 17 * * * rsync –av /path/to/source /home/mark/rsync/daily
+    00 18 * * 5 rsync –av --delete /home/mark/rsync/daily /home/mark/rsync/weekly
+    00 6 1 * * tar -cvjf /home/mark/rsync/monthly/monthly_$(date +%Y%m%d).tar.bz2 /home/rsync/daily/
+    
+In the above example cron setup will backup daily at 5:30PM, Backup every Friday at 6:00PM and Do the full backup on the first of each month at 6:00AM
+
+Adding the *--delete* flag: By default rsync does not delete files in the backup if they were deleted in the source. This is rsync’s way of protecting you from deleting the entire backup directly on accident.
+
+Cron by default sends emails with the output of the command. If you don’t want to get emails you can pipe the cron comands to /dev/null or to a log file
+
+    59 */6 * * * 30 17 * * * rsync –av --delete /path/to/source /home/mark/rsync/daily >> log.file
