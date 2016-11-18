@@ -7,6 +7,7 @@ This file is a reference only
 - [RNASeq pipeline](#rnaseq-pipeline)
 - [TopHat and CuffLinks Sample Protocol](#tophat-and-cufflinks-sample-protocol)
 - [miRNAseq Pipeline](#mirnaseq-pipeline)
+- [Using featureCounts from subread package](#using-featureCounts-from-subread-package)
 - [samtools](#samtools)
 - [parsing gencode GTF file and examining GTF files](#parsing-gencode-gtf-file-and-examining-gtf-files)
 - [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
@@ -22,6 +23,7 @@ This file is a reference only
 * <https://wikis.utexas.edu/display/bioiteam/Alternative+Applications+of+RNA-seq>
 * <http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash>
 * <https://www.marksanborn.net/howto/use-rsync-for-daily-weekly-and-full-monthly-backups/>
+* <http://bioinf.wehi.edu.au/featureCounts/>
 
 ## RNASeq pipeline
 [[back to top](#contents)]
@@ -272,6 +274,54 @@ Examine a few lines of BAM alignment file.
             samtools view accepted_hits.bam | cut -f 6 | grep 'N' | wc -l
 
 
+## Using featureCounts from subread package
+[[back to top](#contents)]
+
+**featureCounts is a way more faster than HTSeq-counts**
+
+Summarize a *single-end* read dataset using 5 threads:
+
+        featureCounts -T 5 -t exon -g gene_id -a annotation.gtf -o counts.txt mapping_results_SE.sam
+        
+Summarize a BAM format dataset:
+
+        featureCounts -t exon -g gene_id -a annotation.gtf -o counts.txt mapping_results_SE.bam
+
+Summarize multiple datasets at the same time:
+
+        featureCounts -t exon -g gene_id -a annotation.gtf -o counts.txt library1.bam library2.bam library3.bam
+
+Perform strand-specific read counting (use '-s 2' if reversely stranded):
+        
+        featureCounts -s 1 -t exon -g gene_id -a annotation.gtf -o counts.txt mapping_results_SE.bam
+
+Summarize *paired-end* reads and count fragments (instead of reads):
+
+  - From subread manual: Reads may be paired or unpaired. If paired reads are used, then each pair of reads defines
+a DNA or RNA fragment bookended by the two reads. In this case, featureCounts can be
+instructed to count fragments rather than reads. featureCounts automatically sorts reads by
+name if paired reads are not in consecutive positions in the SAM or BAM file, with minimal
+cost. Users do not need to sort their paired reads before providing them to featureCounts.
+
+        
+        featureCounts -p -t exon -g gene_id -a annotation.gtf -o counts.txt mapping_results_PE.bam
+
+Summarize multiple paired-end datasets:
+        
+        featureCounts -p -t exon -g gene_id -a annotation.gtf -o counts.txt library1.bam library2.bam library3.bam
+
+Count the fragments that have fragment length between 50bp and 600bp only:
+        
+        featureCounts -p -P -d 50 -D 600 -t exon -g gene_id -a annotation.gtf -o counts.txt mapping_results_PE.bam
+
+Count those fragments that have both ends mapped only:
+        
+        featureCounts -p -B -t exon -g gene_id -a annotation.gtf -o counts.txt mapping_results_PE.bam
+
+Exclude chimeric fragments from fragment counting:
+        
+        featureCounts -p -C -t exon -g gene_id -a annotation.gtf -o counts.txt mapping_results_PE.bam
+
 ## parsing gencode GTF file and examining GTF files
 [[back to top](#contents)]
 
@@ -305,7 +355,6 @@ Other
     cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | head
     cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | cut -f 1-8 | more
     cat $BI/ngs_course/tophat_cufflinks/reference/genes.gtf | cut -f 9 | more
-
 
 ## Redirect output of a command to a file
 [[back to top](#contents)]
