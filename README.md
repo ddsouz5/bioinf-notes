@@ -246,6 +246,13 @@ Get the unique reads (a single read mapping at one best position)
     - *From Devon Ryan in biostars post <https://www.biostars.org/p/101533/>
 'Bowtie2 will give an alignment a MAPQ score of 0 or 1 if it can map equally well to more than one location. Further, there's not always a perfect correspondence between the MAPQ of a read and the summary metrics it prints at the end (I'd need to go through the code again to determine how it arrives at the printed summary metrics, that's not documented anywhere). Finally, you would be well served to completely abandon the concept of "uniquely mapped". It is never useful and is always misleading, since you're simply lying to by labeling something unique. You're better served by simply filtering on a meaningful MAPQ (5 or 10 are often reasonable choices), which has the benefit of actually doing what you want, namely filtering according the the likelihood that an alignment is correct.'*
 
+Get only paired-end reads from bam file
+
+    samtools view -bf 1 foo.bam > foo.paired-end.bam
+    
+Get only single-end reads from bam file
+
+    samtools view -bF 1 foo.bam > foo.single-end.bam
 
 Examine a few lines of BAM alignment file.
 
