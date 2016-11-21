@@ -7,7 +7,7 @@ This file is a reference only
 - [RNASeq pipeline](#rnaseq-pipeline)
 - [TopHat and CuffLinks Sample Protocol](#tophat-and-cufflinks-sample-protocol)
 - [miRNAseq Pipeline](#mirnaseq-pipeline)
-- [Using featureCounts from subread package](#using-featureCounts-from-subread-package)
+- [Using featureCounts from subread package](#using-featurecounts-from-subread-package)
 - [samtools](#samtools)
 - [parsing gencode GTF file and examining GTF files](#parsing-gencode-gtf-file-and-examining-gtf-files)
 - [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
