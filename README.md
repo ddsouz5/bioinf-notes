@@ -24,6 +24,7 @@ This file is a reference only
 * <http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash>
 * <https://www.marksanborn.net/howto/use-rsync-for-daily-weekly-and-full-monthly-backups/>
 * <http://bioinf.wehi.edu.au/featureCounts/>
+* <https://help.ubuntu.com/community/SettingUpNFSHowTo>
 
 ## RNASeq pipeline
 [[back to top](#contents)]
@@ -437,3 +438,62 @@ Adding the *--delete* flag: By default rsync does not delete files in the backup
 Cron by default sends emails with the output of the command. If you don’t want to get emails you can pipe the cron comands to /dev/null or to a log file
 
     59 */6 * * * 30 17 * * * rsync –av --delete /path/to/source /home/mark/rsync/daily >> log.file
+    
+
+## Set-up NFS server
+
+# On server end
+
+    sudo apt-get install nfs-kernel-server 
+    gedit /etc/exports
+    
+To export our directories to a local network 192.168.1.0/24, we add the following line to /etc/exports
+
+    /home            192.168.0.1/24(rw,sync,no_root_squash,no_subtree_check)
+    
+*Note: Note that when locking down which clients can map an export by setting the IP address, you can either specify an address range (as shown above) using a subnet mask, or you can list a single IP address followed by the options. Using a subnet mask for single client's full IP address is **not** required. Just use something like 192.168.1.123(rw). There are a couple options for specifying the subnet mask. One style is 255.255.255.0. The other style is /24 as shown. Both styles should work. The subnet mask marks which part of IP address must be evaluated. *
+
+Export file 
+
+    exportfs -a
+
+Restart the service 
+
+    sudo service nfs-kernel-server restart
+    sudo service idmapd restart  #Optional
+    sudo modprobe nfs  #if error message 'mount.nfs4: No such device'
+    
+# On client end
+
+    sudo apt-get install nfs-common rpcbind
+    
+create the NFS directory mount point    
+
+    sudo mkdir -p /mnt/nfs/home
+    
+mount the NFS shared content in the client machine
+
+    sudo mount -t nfs4 192.168.0.1/home /mnt/nfs/home/
+    
+Cross check 
+    
+    sudo mount -t nfs
+    showmount -e <NFS server name>
+    
+Restart nfs-common (optional)
+
+    sudo service idmapd restart 
+    
+Unmount
+
+    sudo umount /mnt/nfs/home
+    
+For unmount if umount is hanging
+
+    sudo umount -f -l /mnt/nfs/home
+    sudo service nfs-kernel-server restart (on *server* side, optional)
+    sudo service idmapd restart (on *client* side, optional)
+ 
+    
+
+    
