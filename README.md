@@ -13,6 +13,7 @@ This file is a reference only
 - [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 - [Automate backup in Linux with cron and rsync](#automate-backup-in-linux-with-cron-and-rsync)
+- [Set up NFS server](#set-up-nfs-server)
 
 
 ## Sources
@@ -440,9 +441,10 @@ Cron by default sends emails with the output of the command. If you don’t want
     59 */6 * * * 30 17 * * * rsync –av --delete /path/to/source /home/mark/rsync/daily >> log.file
     
 
-## Set-up NFS server
+## Set up NFS server
+[[back to top](#contents)]
 
-# On server end
+### On server end
 
     sudo apt-get install nfs-kernel-server 
     gedit /etc/exports
@@ -463,7 +465,7 @@ Restart the service
     sudo service idmapd restart  #Optional
     sudo modprobe nfs  #if error message 'mount.nfs4: No such device'
     
-# On client end
+### On client end
 
     sudo apt-get install nfs-common rpcbind
     
@@ -494,6 +496,16 @@ For unmount if umount is hanging
     sudo service nfs-kernel-server restart (on *server* side, optional)
     sudo service idmapd restart (on *client* side, optional)
  
-    
+- Helpful links
+
+  - <https://help.ubuntu.com/14.04/serverguide/network-file-system.html>  
+  - <https://help.ubuntu.com/community/SettingUpNFSHowTo#NFS_quick_start>  
+  - <https://help.ubuntu.com/community/NFSv4Howto>  
+  - <https://www.howtoforge.com/nfs-server-on-ubuntu-14.10>  
+  - <https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-14-04>  
+  - <http://unix.stackexchange.com/questions/106122/mount-nfs-access-denied-by-server-while-mounting-on-ubuntu-machines>  
+  - <http://stackoverflow.com/questions/40317/force-unmount-of-nfs-mounted-directory>
+
+
 
     
