@@ -227,6 +227,8 @@ miRNA Profiling with SAMTools
   
             sort -r -n -k 3 idxstats.txt | head
 
+Consider Subread package for miRNA seq alignment too as they have parameters optimized for smallRNA seq. Check users manual
+
 ## samtools
 [[back to top](#contents)]
 
