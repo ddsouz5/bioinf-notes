@@ -14,6 +14,7 @@ This file is a reference only
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 - [Automate backup in Linux with cron and rsync](#automate-backup-in-linux-with-cron-and-rsync)
 - [Set up NFS server](#set-up-nfs-server)
+- [get files from ftp server using wget](#get-files-from-ftp-server-using-wget)
 
 
 ## Sources
@@ -509,5 +510,7 @@ For unmount if umount is hanging
   - <http://stackoverflow.com/questions/40317/force-unmount-of-nfs-mounted-directory>
 
 
+## get files from ftp server using wget
 
+    wget -m ftp://caftpd.nci.nih.gov/pub/dcc_target/RT/miRNA-seq/L3/expression/BCCA/
     
