@@ -27,11 +27,29 @@ This file is a reference only
 * <https://www.marksanborn.net/howto/use-rsync-for-daily-weekly-and-full-monthly-backups/>
 * <http://bioinf.wehi.edu.au/featureCounts/>
 * <https://help.ubuntu.com/community/SettingUpNFSHowTo>
+* <http://www.genomicscode.org/2012/09/how-to-quickly-download-illumina.html>
 
 ## RNASeq pipeline
 [[back to top](#contents)]
 
 *Optimized for Ion Torrent Reads*
+
+Obtain genome and annotations from Illumina iGenomes through ftp
+    
+    ftp
+    open ussd-ftp.illumina.com
+    *Name*: igenome
+    *password*: G3nom3s4u
+    cd Homo_sapiens/UCSC/hg38/
+    get Homo_sapiens_UCSC_hg38.tar.gz
+    
+    Can also use Filezilla (faster)
+    
+    *Host:* ussd-ftp.illumina.com
+    *Username:* igenome
+    *Password:* G3nom3s4u
+
+
 
 Create link to index files and gtf gile (example code)
 
