@@ -372,6 +372,10 @@ Get all miRNA gene names:
 
     awk '{if($20 == "\"miRNA\";"){print $0}}' gencode.v19.annotation.gtf | cut -d ";" -f 5 - | awk -F " " '{print $2}' - | sort | uniq > miRNA.genes
     
+If using genes.gtf from Gencode.genes folder from hg38 iGenome and want a text file of gene_id and gene_name
+
+    awk '{if($9=="gene_id"){print $0}}' genes.gtf | cut -f 9 | cut -d ";" -f 1,2 | cut -d " " -f 2,4 > Genes.gencode_gene2symbol.txt
+    
 Other
     
     less $BI/ngs_course/tophat_cufflinks/reference/genes.gtf  # :q to exit
