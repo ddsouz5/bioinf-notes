@@ -532,7 +532,33 @@ For unmount if umount is hanging
   - <http://stackoverflow.com/questions/40317/force-unmount-of-nfs-mounted-directory>
 
 
-## get files from ftp server using wget
+## get files from ftp server or http using wget, rsync, mget
 
     wget -m ftp://caftpd.nci.nih.gov/pub/dcc_target/RT/miRNA-seq/L3/expression/BCCA/
+    
+Using an rsync command to download the entire directory:
+
+    rsync -avzP rsync://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/ .
+    
+Using rsync for a single file, e.g. gc5Base.txt.gz
+
+    rsync -avzP rsync://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/gc5Base.txt.gz .
+    
+wget, all files
+    
+    wget --timestamping 
+        'ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/*'
+        
+wget, single file
+
+    wget --timestamping 
+        'ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/gc5Base.txt.gz' 
+        -O gc5Base.txt.gz
+        
+mget        
+
+    mget <filename1> <filename2> ...
+    - or -
+    mget -a (to download all the files in the directory) 
+    
     
