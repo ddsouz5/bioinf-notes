@@ -14,7 +14,8 @@ This file is a reference only
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 - [Automate backup in Linux with cron and rsync](#automate-backup-in-linux-with-cron-and-rsync)
 - [Set up NFS server](#set-up-nfs-server)
-- [get files from ftp server using wget](#get-files-from-ftp-server-using-wget)
+- [get files from ftp server or http using wget, rsync, mget](#get-files-from-ftp-server-or-http-using-wget,-rsync,-mget)
+- [download raw sequence data from GEO/SRA](#download-raw-sequence-data-from-GEO/SRA)
 
 
 ## Sources
@@ -28,6 +29,7 @@ This file is a reference only
 * <http://bioinf.wehi.edu.au/featureCounts/>
 * <https://help.ubuntu.com/community/SettingUpNFSHowTo>
 * <http://www.genomicscode.org/2012/09/how-to-quickly-download-illumina.html>
+* <https://www.biostars.org/p/111040/>
 
 ## RNASeq pipeline
 [[back to top](#contents)]
@@ -561,4 +563,22 @@ mget
     - or -
     mget -a (to download all the files in the directory) 
     
+## download raw sequence data from GEO/SRA
+
+https://www.ncbi.nlm.nih.gov/sra/
+https://www.ncbi.nlm.nih.gov/geo/
+http://www.ebi.ac.uk/ena/
+
+After finding samples on SRA or GEO, find *SRR* number for sample on the NCBI SRA website, then use SRA toolkit on cmd line
+e.g. for "SRX1210960: GSM1872102: Panc10.05 #1; Homo sapiens; RNA-Seq", link https://www.ncbi.nlm.nih.gov/sra/?term=SRX1210960
+
+    prefetch -v SRR2313114
     
+Note where the sra file is downloaded (by default to /home/[USER]/ncbi/public/sra/.) and then convert to fastq with something like the following.
+
+    fastq-dump --outdir /opt/fastq/ --split-files /home/[USER]/ncbi/public/sra/SRR2313114.sra
+
+    
+If you just want to download X number of raw (fastq) reads to standard output from a particular run you can use a command like the following. This can be useful to just take a quick look at some reads, or obtain some reads for testing purposes or just check whether the SRA toolkit is even working for you
+
+    fastq-dump -X 5 -Z SRR925811
