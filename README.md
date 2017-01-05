@@ -15,7 +15,7 @@ This file is a reference only
 - [Automate backup in Linux with cron and rsync](#automate-backup-in-linux-with-cron-and-rsync)
 - [Set up NFS server](#set-up-nfs-server)
 - [get files from ftp server or http using wget rsync mget](#get-files-from-ftp-server-or-http-using-wget-rsync-mget)
-- [download raw sequence data from GEO-SRA](#download-raw-sequence-data-from-GEO-SRA)
+- [download raw sequence data from GEO SRA](#download-raw-sequence-data-from-GEO-SRA)
 
 
 ## Sources
