@@ -14,8 +14,8 @@ This file is a reference only
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 - [Automate backup in Linux with cron and rsync](#automate-backup-in-linux-with-cron-and-rsync)
 - [Set up NFS server](#set-up-nfs-server)
-- [get files from ftp server or http using wget, rsync, mget](#get-files-from-ftp-server-or-http-using-wget,-rsync,-mget)
-- [download raw sequence data from GEO/SRA](#download-raw-sequence-data-from-GEO/SRA)
+- [get files from ftp server or http using wget rsync mget](#get-files-from-ftp-server-or-http-using-wget-rsync-mget)
+- [download raw sequence data from GEO-SRA](#download-raw-sequence-data-from-GEO-SRA)
 
 
 ## Sources
@@ -534,7 +534,7 @@ For unmount if umount is hanging
   - <http://stackoverflow.com/questions/40317/force-unmount-of-nfs-mounted-directory>
 
 
-## get files from ftp server or http using wget, rsync, mget
+## get files from ftp server or http using wget rsync mget
 
     wget -m ftp://caftpd.nci.nih.gov/pub/dcc_target/RT/miRNA-seq/L3/expression/BCCA/
     
@@ -563,7 +563,7 @@ mget
     - or -
     mget -a (to download all the files in the directory) 
     
-## download raw sequence data from GEO/SRA
+## download raw sequence data from GEO SRA
 
 https://www.ncbi.nlm.nih.gov/sra/
 https://www.ncbi.nlm.nih.gov/geo/
