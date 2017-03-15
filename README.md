@@ -37,6 +37,8 @@ This file is a reference only
 *Optimized for Ion Torrent Reads*
 
 Obtain genome and annotations from Illumina iGenomes through ftp
+
+    ftp site: ftp://ussd-ftp.illumina.com/
     
     ftp
     open ussd-ftp.illumina.com
