@@ -16,6 +16,8 @@ This file is a reference only
 - [Set up NFS server](#set-up-nfs-server)
 - [get files from ftp server or http using wget rsync mget](#get-files-from-ftp-server-or-http-using-wget-rsync-mget)
 - [download raw sequence data from GEO SRA](#download-raw-sequence-data-from-GEO-SRA)
+- [Perl-one-liners](#Perl-one-liners)
+
 
 
 ## Sources
@@ -585,7 +587,8 @@ If you just want to download X number of raw (fastq) reads to standard output fr
 
     fastq-dump -X 5 -Z SRR925811
  
-## Perl one-liners (source http://www.catonmat.net/download/perl1line.txt)
+## Perl one liners 
+## (source http://www.catonmat.net/download/perl1line.txt)
 
 ## FILE SPACING 
 ------------
@@ -637,7 +640,7 @@ If you just want to download X number of raw (fastq) reads to standard output fr
 
 
 ## LINE NUMBERING
---------------
+
 
 ### Number all lines in a file
     
@@ -700,7 +703,7 @@ If you just want to download X number of raw (fastq) reads to standard output fr
 
 
 CALCULATIONS
-------------
+
 
 ### Check if a number is a prime
     
@@ -853,7 +856,6 @@ CALCULATIONS
 
 
 ## STRING CREATION AND ARRAY CREATION
-----------------------------------
 
 ### Generate and print the alphabet
 
@@ -928,7 +930,7 @@ CALCULATIONS
 
 
 ## TEXT CONVERSION AND SUBSTITUTION
---------------------------------
+
 
 ### ROT13 a string
     
@@ -1033,7 +1035,7 @@ CALCULATIONS
 
 
 ## SELECTIVE PRINTING AND DELETING OF CERTAIN LINES
-------------------------------------------------
+
 
 ### Print the first line of a file (emulate head -1)
     
@@ -1156,7 +1158,7 @@ CALCULATIONS
 
 
 ## HANDY REGULAR EXPRESSIONS
--------------------------
+
 
 ### Match something that looks like an IP address
 
@@ -1231,7 +1233,7 @@ CALCULATIONS
 
 
 ## PERL TRICKS
------------
+
 
 ### Print the version of a Perl module
     
