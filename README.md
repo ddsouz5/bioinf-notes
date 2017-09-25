@@ -591,7 +591,6 @@ If you just want to download X number of raw (fastq) reads to standard output fr
 ## (source http://www.catonmat.net/download/perl1line.txt)
 
 ## FILE SPACING 
-------------
 
 ### Double space a file
     
