@@ -9,14 +9,14 @@ This file is a reference only
 - [miRNAseq Pipeline](#mirnaseq-pipeline)
 - [Using featureCounts from subread package](#using-featurecounts-from-subread-package)
 - [samtools](#samtools)
-- [parsing gencode GTF file and examining GTF files with AWK](#parsing-gencode-gtf-file-and-examining-gtf-files-with-AWK)
+- [parsing gencode GTF file and examining GTF files with AWK](#parsing-gencode-gtf-file-and-examining-gtf-files-with-awk)
 - [Redirect output of a command to a file](#redirect-output-of-a-command-to-a-file)
 - [Extract file name in unix loops](#extract-file-name-in-unix-loops)
 - [Automate backup in Linux with cron and rsync](#automate-backup-in-linux-with-cron-and-rsync)
 - [Set up NFS server](#set-up-nfs-server)
 - [get files from ftp server or http using wget rsync mget](#get-files-from-ftp-server-or-http-using-wget-rsync-mget)
-- [download raw sequence data from GEO SRA](#download-raw-sequence-data-from-GEO-SRA)
-- [Perl-one-liners](#Perl-one-liners)
+- [download raw sequence data from GEO SRA](#download-raw-sequence-data-from-geo-sra)
+- [Perl-one-liners](#perl-one-liners)
 
 
 
@@ -552,6 +552,8 @@ For unmount if umount is hanging
 
 
 ## get files from ftp server or http using wget rsync mget
+[[back to top](#contents)]
+
 
     wget -m ftp://caftpd.nci.nih.gov/pub/dcc_target/RT/miRNA-seq/L3/expression/BCCA/
     
@@ -581,6 +583,8 @@ mget
     mget -a (to download all the files in the directory) 
     
 ## download raw sequence data from GEO SRA
+[[back to top](#contents)]
+
 
 https://www.ncbi.nlm.nih.gov/sra/
 https://www.ncbi.nlm.nih.gov/geo/
@@ -600,8 +604,9 @@ If you just want to download X number of raw (fastq) reads to standard output fr
 
     fastq-dump -X 5 -Z SRR925811
  
-## Perl one liners 
+# Perl one liners 
 ## (source http://www.catonmat.net/download/perl1line.txt)
+[[back to top](#contents)]
 
 ## FILE SPACING 
 
@@ -714,7 +719,7 @@ Print the number of lines in a file that match a pattern (emulate grep -c)
     perl -nE '$a++ if /regex/; END {say $a+0}'
 
 
-CALCULATIONS
+## CALCULATIONS
 
 
 Check if a number is a prime
