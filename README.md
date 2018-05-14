@@ -405,6 +405,10 @@ Explore VCF File
 ## Redirect output of a command to a file
 [[back to top](#contents)]
 
+Standard error and output to same file
+
+    command > output.txt 2>&1 
+
 The standard error stream will be redirected to the file only, it will not be visible in the terminal. If the file already exists, it gets overwritten.
 
     command 2> output.txt
